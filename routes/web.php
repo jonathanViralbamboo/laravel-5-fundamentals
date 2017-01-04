@@ -12,10 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+  return view('welcome');
 });
 
-// When opening /contact, load the contact.blade.php file in the 'pages' folder.
+Route::get('contact', function () {
+  return view('pages.contact');
+});
+
 Route::get('about', function () {
 
   $data = [
@@ -23,5 +26,11 @@ Route::get('about', function () {
     'last' => 'Dempsey'
   ];
 
-  return view('pages.about', $data);
+  $games = [
+    'Bioshock',
+    'Final Fantasy',
+    'Mass Effect'
+  ];
+
+  return view('pages.about', $data, compact('games'));
 });
