@@ -36,3 +36,7 @@ Route::get('about', function () {
 });
 
 Route::resource('articles', 'ArticlesController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
