@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Article;
-use App\Http\Requests\CreateArticleRequest;
+use App\Http\Requests\ArticleRequest;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+
+use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
@@ -23,7 +25,7 @@ class ArticlesController extends Controller
     {
       $article = Article::findOrFail($id);
 
-      dd($article->published_at->addDays(8)->diffForHumans());
+      // dd($article->published_at->addDays(8)->diffForHumans());
 
       return view('articles.show', compact('article'));
     }
@@ -35,9 +37,25 @@ class ArticlesController extends Controller
     }
 
     // The code in the function will not fire unless validation is good
-    public function store(CreateArticleRequest $request)
+    public function store(ArticleRequest $request)
     {
       Article::create($request->all());
+
+      return redirect('articles');
+    }
+
+    // Edit an existing article
+    public function edit($id)
+    {
+      $article = Article::findOrFail($id);
+      return view('articles.edit', compact('article'));
+    }
+
+    // Update an existing article
+    public function update($id, ArticleRequest $request)
+    {
+      $article = Article::findOrFail($id);
+      $article->update($request->all());
 
       return redirect('articles');
     }
