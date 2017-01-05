@@ -34,3 +34,5 @@ Route::get('about', function () {
 
   return view('pages.about', $data, compact('games'));
 });
+
+Route::resource('articles', 'ArticlesController');
