@@ -13,7 +13,8 @@ class ArticlesController extends Controller
     // Display all articles
     public function index()
     {
-        $articles = Article::latest('published_at')->get();
+        // Only display dates that have their published_at date in the past. See published() in articles model.
+        $articles = Article::latest('published_at')->published()->get();
 
         return view('articles.index')->with('articles', $articles);
     }
@@ -22,6 +23,8 @@ class ArticlesController extends Controller
     public function show($id)
     {
       $article = Article::findOrFail($id);
+
+      dd($article->published_at->addDays(8)->diffForHumans());
 
       return view('articles.show', compact('article'));
     }
@@ -34,16 +37,18 @@ class ArticlesController extends Controller
 
     public function store()
     {
-      $input = Request::all();
-      $input['published_at'] = Carbon::now();
 
-      // $article = new Article;
-      // $article->title = $input['title'];
-      // $article->body = $input['body'];
+      Article:: create(Request::all());
 
-      // OR
-
-      Article::create($input);
+      // $input = Request::all();
+      //
+      // // $article = new Article;
+      // // $article->title = $input['title'];
+      // // $article->body = $input['body'];
+      //
+      // // OR
+      //
+      // // Article::create($input);
 
       return redirect('articles');
     }
