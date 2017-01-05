@@ -14,7 +14,8 @@ class ArticlesController extends Controller
     // Display all articles
     public function index()
     {
-        // Only display dates that have their published_at date in the past. See published() in articles model.
+        // Only display dates that have their published_at date in the past.
+        // See published() in articles model as scopePublished.
         $articles = Article::latest('published_at')->published()->get();
 
         return view('articles.index')->with('articles', $articles);
@@ -24,7 +25,6 @@ class ArticlesController extends Controller
     public function show($id)
     {
       $article = Article::findOrFail($id);
-
       // dd($article->published_at->addDays(8)->diffForHumans());
 
       return view('articles.show', compact('article'));

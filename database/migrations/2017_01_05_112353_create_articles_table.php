@@ -15,10 +15,17 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned(); // FK
             $table->string('title');
             $table->text('body');
             $table->timestamps();
             $table->timestamp('published_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->foreign('user_id')
+              ->references('id')
+              ->on('users')
+              // If the user deletes their account, delete their articles too.
+              ->onDelete('cascade');
         });
     }
 
