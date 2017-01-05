@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Http\Requests\CreateArticleRequest;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-
-use Request;
 
 class ArticlesController extends Controller
 {
@@ -35,20 +34,10 @@ class ArticlesController extends Controller
       return view('articles.create');
     }
 
-    public function store()
+    // The code in the function will not fire unless validation is good
+    public function store(CreateArticleRequest $request)
     {
-
-      Article:: create(Request::all());
-
-      // $input = Request::all();
-      //
-      // // $article = new Article;
-      // // $article->title = $input['title'];
-      // // $article->body = $input['body'];
-      //
-      // // OR
-      //
-      // // Article::create($input);
+      Article::create($request->all());
 
       return redirect('articles');
     }
