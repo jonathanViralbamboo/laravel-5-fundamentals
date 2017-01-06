@@ -39,3 +39,8 @@ Route::resource('articles', 'ArticlesController');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index');
+
+// Dummy route for middleware manager test
+Route::get('foo', ['middleware' => ['manager'], function() {
+  return 'This page may only be viewed by a manager!';
+}]);

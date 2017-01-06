@@ -36,4 +36,10 @@ class User extends Authenticatable
     {
       return $this->hasMany('App\Article');
     }
+
+    // Toggle true/false to test middleware
+    public function isATeamManager()
+    {
+      return true;
+    }
 }

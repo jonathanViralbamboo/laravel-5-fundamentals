@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
+    public function __construct()
+    {
+        // References 'auth' in Kernel.php
+        // If a logged out user tries to access the create and edit pages, redirect to the login page
+        $this->middleware('auth', ['only' => ['create', 'edit']]);
+    }
+
     // Display all articles
     public function index()
     {
@@ -56,7 +63,7 @@ class ArticlesController extends Controller
     public function edit($id)
     {
       $article = Article::findOrFail($id);
-      
+
       return view('articles.edit', compact('article'));
     }
 
