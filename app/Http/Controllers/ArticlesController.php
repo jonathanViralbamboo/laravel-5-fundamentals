@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Tag;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -46,15 +47,20 @@ class ArticlesController extends Controller
     // Create a new article
     public function create()
     {
-      return view('articles.create');
+      $tags = Tag::pluck('name', 'id');
+      return view('articles.create', compact('tags'));
     }
 
     // The code in the function will not fire unless validation is good
     public function store(ArticleRequest $request)
     {
       // Create a new article. Then get the auth users articles and save a new one.
-      $article = new Article($request->all());
-      Auth::user()->articles()->save($article);
+      // $article = new Article($request->all());
+      // Auth::user()->articles()->save($article);
+      $article = Auth::user()->articles()->create($request->all());
+
+      // Update the tags pivot table. Associate the specific article id with the array of input tags
+      $article->tags()->attach($request->input('tag_list'));
 
       // flash()->success('Your article has been created!');
       flash()->overlay('Your article has been created!', 'Good job!');
@@ -65,7 +71,8 @@ class ArticlesController extends Controller
     // Edit an existing article
     public function edit(Article $article)
     {
-      return view('articles.edit', compact('article'));
+      $tags = Tag::pluck('name', 'id'); // temporary
+      return view('articles.edit', compact('article', 'tags'));
     }
 
     // Update an existing article
