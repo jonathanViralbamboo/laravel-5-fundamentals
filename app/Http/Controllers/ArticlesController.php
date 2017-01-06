@@ -38,6 +38,7 @@ class ArticlesController extends Controller
     public function show(Article $article)
     {
       // dd($article->published_at->addDays(8)->diffForHumans());
+      // dd($article->published_at);
 
       return view('articles.show', compact('article'));
     }
@@ -54,6 +55,10 @@ class ArticlesController extends Controller
       // Create a new article. Then get the auth users articles and save a new one.
       $article = new Article($request->all());
       Auth::user()->articles()->save($article);
+
+      session()->flash('flash_message', 'Your article has been created!');
+      // true to make it important, remove line entirely to make it a normal flash message
+      session()->flash('flash_message_important', true);
 
       return redirect('articles');
     }
