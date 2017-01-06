@@ -35,9 +35,8 @@ class ArticlesController extends Controller
     }
 
     // Display a single article
-    public function show($id)
+    public function show(Article $article)
     {
-      $article = Article::findOrFail($id);
       // dd($article->published_at->addDays(8)->diffForHumans());
 
       return view('articles.show', compact('article'));
@@ -60,17 +59,14 @@ class ArticlesController extends Controller
     }
 
     // Edit an existing article
-    public function edit($id)
+    public function edit(Article $article)
     {
-      $article = Article::findOrFail($id);
-
       return view('articles.edit', compact('article'));
     }
 
     // Update an existing article
-    public function update($id, ArticleRequest $request)
+    public function update(Article $article, ArticleRequest $request)
     {
-      $article = Article::findOrFail($id);
       $article->update($request->all());
 
       return redirect('articles');

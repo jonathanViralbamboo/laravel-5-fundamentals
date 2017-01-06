@@ -21,12 +21,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
-
-        parent::boot();
-    }
+     public function boot()
+     {
+         parent::boot();
+         Route::model('article', 'App\Article'); // article is the wild card, such as in route get('/articles/{article}', function(){ // });
+     }
 
     /**
      * Define the routes for the application.
