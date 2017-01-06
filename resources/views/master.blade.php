@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="container">
-      @include('partials.flash')
+      @include('flash::message')
 
       @yield('content')
     </div>
@@ -16,7 +16,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script>
-      $('div.alert').not('.alert-important').delay(3000).slideUp(300);
+      $('#flash-overlay-modal').modal();
+      // $('div.alert').not('.alert-important').delay(3000).slideUp(300);
     </script>
 
     @yield('footer')
