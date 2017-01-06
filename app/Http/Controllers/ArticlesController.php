@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Controllers\Controller;
+use Auth;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -14,6 +15,11 @@ class ArticlesController extends Controller
     // Display all articles
     public function index()
     {
+        // // Get the authenticated user full details
+        // return \Auth::user();
+        // // Get the authendicated user name
+        // return \Auth::user()->name;
+
         // Only display dates that have their published_at date in the past.
         // See published() in articles model as scopePublished.
         $articles = Article::latest('published_at')->published()->get();
@@ -39,7 +45,9 @@ class ArticlesController extends Controller
     // The code in the function will not fire unless validation is good
     public function store(ArticleRequest $request)
     {
-      Article::create($request->all());
+      // Create a new article. Then get the auth users articles and save a new one.
+      $article = new Article($request->all());
+      Auth::user()->articles()->save($article);
 
       return redirect('articles');
     }
@@ -48,6 +56,7 @@ class ArticlesController extends Controller
     public function edit($id)
     {
       $article = Article::findOrFail($id);
+      
       return view('articles.edit', compact('article'));
     }
 
