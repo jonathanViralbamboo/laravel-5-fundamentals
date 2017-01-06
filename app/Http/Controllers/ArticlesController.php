@@ -48,19 +48,15 @@ class ArticlesController extends Controller
     public function create()
     {
       $tags = Tag::pluck('name', 'id');
+
       return view('articles.create', compact('tags'));
     }
 
     // The code in the function will not fire unless validation is good
     public function store(ArticleRequest $request)
     {
-      // Create a new article. Then get the auth users articles and save a new one.
-      // $article = new Article($request->all());
-      // Auth::user()->articles()->save($article);
-      $article = Auth::user()->articles()->create($request->all());
-
-      // Update the tags pivot table. Associate the specific article id with the array of input tags
-      $article->tags()->attach($request->input('tag_list'));
+      // Store a new article using the createArticle() method at bottom of page.
+      $this->createArticle($request);
 
       // flash()->success('Your article has been created!');
       flash()->overlay('Your article has been created!', 'Good job!');
@@ -72,6 +68,7 @@ class ArticlesController extends Controller
     public function edit(Article $article)
     {
       $tags = Tag::pluck('name', 'id'); // temporary
+      
       return view('articles.edit', compact('article', 'tags'));
     }
 
@@ -80,6 +77,27 @@ class ArticlesController extends Controller
     {
       $article->update($request->all());
 
+      // Syncs the selected tags for updating from the syncTags() method below
+      $this->syncTags($article, $request->input('tag_list'));
+
       return redirect('articles');
+    }
+
+    // Sync up the list of tags in the database
+    private function syncTags(Article $article, array $tags)
+    {
+      $article->tags()->sync($tags);
+    }
+
+    // save a new article
+    private function createArticle(ArticleRequest $request)
+    {
+      // Create a new article. Then get the auth users articles and save a new one.
+      $article = Auth::user()->articles()->create($request->all());
+
+      // Syncs the selected tags for updating from the syncTags() method below
+      $this->syncTags($article, $request->input('tag_list'));
+
+      return $article;
     }
 }
