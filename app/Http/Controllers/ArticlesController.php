@@ -68,7 +68,7 @@ class ArticlesController extends Controller
     public function edit(Article $article)
     {
       $tags = Tag::pluck('name', 'id'); // temporary
-      
+
       return view('articles.edit', compact('article', 'tags'));
     }
 

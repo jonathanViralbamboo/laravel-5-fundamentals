@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-  <h1>Articles</h1>
+  <h1 class="header--article">Articles</h1>
 
   @foreach ($articles as $article)
     <article>
