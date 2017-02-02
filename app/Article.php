@@ -48,6 +48,16 @@ class Article extends Model
     }
 
     /**
+     * Get the published_at attribute.
+     *
+     * @param $date
+     */
+    public function getPublishedAtAttribute($date)
+    {
+      return new Carbon($date);
+    }
+
+    /**
      * An article belongs to a single user
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

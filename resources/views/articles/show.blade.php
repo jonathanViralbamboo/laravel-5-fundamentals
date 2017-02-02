@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-  <article>
+  <article class="header--article">
     <h2><a href="#">{{ $article->title }}</a></h2>
     <div class="body">
       {{ $article->body }}

@@ -52,6 +52,11 @@ Route::get('about', function () {
 
 Route::resource('articles', 'ArticlesController');
 
+Route::get('tags/{tags}',function (App\Tag $tags)
+{
+  return App::make('App\Http\Controllers\TagsController')->show($tags);
+});
+
 Auth::routes();
 Route::get('/home', 'HomeController@index');
 

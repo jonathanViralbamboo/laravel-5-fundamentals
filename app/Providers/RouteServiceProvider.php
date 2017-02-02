@@ -25,7 +25,10 @@ class RouteServiceProvider extends ServiceProvider
      {
          parent::boot();
          Route::model('article', 'App\Article'); // article is the wild card, such as in route get('/articles/{article}', function(){ // });
-     }
+         Route::bind('tags', function($value) {
+           return \App\Tag::where('name', $value)->first();
+         });
+       }
 
     /**
      * Define the routes for the application.
